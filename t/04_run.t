@@ -11,25 +11,17 @@ use POE qw(Wheel::Run Filter::Reference Filter::Line);
 use POE::Kernel;
 use POE::Component::Server::SimpleXMLRPC;
 
-use POE::API::Peek;
-
-my $api = POE::API::Peek->new;
-
 my $PORT = 2080;
 my $IP = "localhost";
 
 POE::Component::Server::SimpleXMLRPC->new(
-#                'ALIAS'         =>      'HTTPD',
                 'ADDRESS'       =>      "$IP",
                 'PORT'          =>      $PORT,
-#                'HOSTNAME'      =>      'pocosimpletest.com',
 		'RPC_MAP'       =>      { 
 		    test1 => sub { return 'test_ok' },
 		    test2 => sub { return { result => 'test_ok', input => @{$_[0]}[0]->{arg} } },
 		},
-#		SETUPHANDLER => { SESSION => 'HTTP_GET', EVENT => '_tests', },
     );
-    # Create our own session to receive events from SimpleHTTP
 POE::Session->create(
                 inline_states => {
                         '_start'        => sub {   $poe_kernel->alias_set( 'TESTER' );
@@ -37,15 +29,10 @@ POE::Session->create(
 						   return;
 					   },
                         '_tests'        => \&_start_tests,
-#                        'TEST'           => \&test,
-#                        'HONK'          => \&honk,
-#                        'BONK'          => \&bonk,
-#                       	'BONK2'         => \&bonk2,
                         '_close'        => \&_close,
                         '_stdout'       => \&_stdout,
                         '_stderr'       => \&_stderr,
                         '_sig_chld'     => \&_sig_chld,
-#                        'on_close'      => \&on_close,
                 },
 );
 $poe_kernel->run;
@@ -70,7 +57,6 @@ sub _start_tests {
 sub _close {
   delete $_[HEAP]->{_wheel};
   $poe_kernel->call( 'HTTP_GET', 'SHUTDOWN' );
-  $poe_kernel->call( $_[SESSION], '_stop' );
   $poe_kernel->alias_remove( 'TESTER' );
   return;
 }
