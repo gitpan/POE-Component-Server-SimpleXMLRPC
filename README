@@ -1,6 +1,6 @@
 
 				POE-Component-Server-SimpleXMLRPC
-				   v0.01
+				   v0.02
 This is a module that enables Frontier functionality from under POE SimpleHTTP server.
 --
 

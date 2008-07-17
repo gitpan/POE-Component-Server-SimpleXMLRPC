@@ -6,7 +6,6 @@ use Test::More;
 plan tests => 4;
 
 use Frontier::Client;
-use LWP::ConnCache;
 use POE qw(Wheel::Run Filter::Reference Filter::Line);
 use POE::Kernel;
 use POE::Component::Server::SimpleXMLRPC;

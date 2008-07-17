@@ -12,5 +12,10 @@ requires    'POE::Component::Server::SimpleHTTP'      	=>    0;
 requires    'Frontier::RPC2'      			       	=>    0;
 requires    'Encode'    					=>    0;
 test_requires 'Test::More' => 0;
+test_requires 'Frontier::Client' => 0;
+test_requires 'POE' => 1;
+test_requires 'POE::Wheel::Run' => 0;
+test_requires 'POE::Filter::Reference' => 0;
+test_requires 'POE::Filter::Line' => 0;
 
 WriteAll();
